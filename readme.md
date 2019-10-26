@@ -15,7 +15,7 @@ A beginner tutorial that helps to create a custom ROS package that consists of a
 ## Dependencies	
 1. ROS Kinetic - [Installation](http://wiki.ros.org/kinetic/Installation)
 2. Catkin(installed by default with ROS) - a low level build system macros and infrastructure for ROS.
-3. Package Dependencies - std_msgs, roscpp
+3. ROS libraries - std_msgs, roscpp
 
 ## Build
 Build using the following commands-

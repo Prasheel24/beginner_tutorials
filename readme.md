@@ -58,11 +58,9 @@ rosrun beginner_tutorials listener
 
 4. Upon successful execution of the commands, the subscriber node must show "I heard : [ROS Rocks!!]" message
 
-## Dependencies
+## Dependencies	
 1. std_msgs
 2. roscpp
-3. genmsg
-4. rospy	
 
 ## References
 * http://wiki.ros.org/ROS/Tutorials/WritingPublisherSubscriber%28c%2B%2B%29

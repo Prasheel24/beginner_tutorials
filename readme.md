@@ -9,8 +9,8 @@ Beginner Tutorials from the ROS Wiki Page that walks through the Publisher and S
 
 ## Description
 A beginner tutorial that helps to create a custom ROS package that consists of a publisher and a listener. Once the Master is setup, a talker(talker.cpp) will publish topic with a message and a listener(listener.cpp) will subscribe the topic with that message. 
-The message published will be "ROS Rocks!!"
-The message subscriber will be "I Heard : [ROS Rocks!!]"
+<p></p>The message published will be "ROS Rocks!!"
+<p></p>The message subscribed will be "I Heard : [ROS Rocks!!]"
 
 
 ## Build

@@ -12,6 +12,10 @@ A beginner tutorial that helps to create a custom ROS package that consists of a
 <p></p>The message published will be "ROS Rocks!!"
 <p></p>The message subscribed will be "I Heard : [ROS Rocks!!]"
 
+## Dependencies	
+1. ROS Kinetic - [Installation](http://wiki.ros.org/kinetic/Installation)
+2. Catkin(installed by default with ROS) - a low level build system macros and infrastructure for ROS.
+3. Package Dependencies - std_msgs, roscpp
 
 ## Build
 Build using the following commands-
@@ -57,10 +61,6 @@ rosrun beginner_tutorials listener
 ```
 
 4. Upon successful execution of the commands, the subscriber node must show "I heard : [ROS Rocks!!]" message
-
-## Dependencies	
-1. std_msgs
-2. roscpp
 
 ## References
 * http://wiki.ros.org/ROS/Tutorials/WritingPublisherSubscriber%28c%2B%2B%29

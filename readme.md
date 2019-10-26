@@ -24,7 +24,7 @@ catkin_make
 source devel/setup.bash
 cd src/
 
-git clone --recursive https://github.com/likhitam/beginner_tutorials.git
+git clone --recursive https://github.com/prasheel24/beginner_tutorials
 cd ..
 catkin_make
 ```

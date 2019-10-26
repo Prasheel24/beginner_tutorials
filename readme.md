@@ -2,15 +2,15 @@
 
 ## Authors
 
-* **Prasheel Renkuntla** - [GitHub](https://github.com/Prasheel24)
+**Prasheel Renkuntla** - [GitHub](https://github.com/Prasheel24)
 
 ## Overview
 Beginner Tutorials from the ROS Wiki Page that walks through the Publisher and Subscriber example.
 
 ## Description
 A beginner tutorial that helps to create a custom ROS package that consists of a publisher and a listener. Once the Master is setup, a talker(talker.cpp) will publish topic with a message and a listener(listener.cpp) will subscribe the topic with that message. 
-The message published will be "You Rock!!"
-The message subscriber will be "I Heard : [You Rock!!]"
+The message published will be "ROS Rocks!!"
+The message subscriber will be "I Heard : [ROS Rocks!!]"
 
 
 ## Build
@@ -39,7 +39,7 @@ cd ~/catkin_ws
 source ./devel/setup.bash
 roscore
 ```
-Ensure if roscore is running in the terminal. For any issues check [ROS Troubleshoot](http://wiki.ros.org/ROS/Troubleshooting)
+&nbsp;&nbsp;&nbsp;Ensure if roscore is running in the terminal. For any issues check [ROS Troubleshoot](http://wiki.ros.org/ROS/Troubleshooting)
 
 2. Open a new terminal to setup the Publisher Node: 
 ```
@@ -47,7 +47,7 @@ cd ~/catkin_ws
 source ./devel/setup.bash
 rosrun beginner_tutorials talker
 ```
-Publisher node must transmit "You Rock!!"
+&nbsp;&nbsp;&nbsp;Publisher node must transmit "ROS Rocks!!"
 
 3. Open a new terminal to setup the Subscriber Node:
 ```
@@ -56,13 +56,13 @@ source ./devel/setup.bash
 rosrun beginner_tutorials listener
 ```
 
-4. Upon successful execution of the commands, the subscriber node must show "I heard : [You Rock]" message
+4. Upon successful execution of the commands, the subscriber node must show "I heard : [ROS Rocks!!]" message
 
 ## Dependencies
 1. std_msgs
 2. roscpp
 3. genmsg
-4. rospy
+4. rospy	
 
 ## References
 * http://wiki.ros.org/ROS/Tutorials/WritingPublisherSubscriber%28c%2B%2B%29

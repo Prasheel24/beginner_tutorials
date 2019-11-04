@@ -82,29 +82,30 @@ int main(int argc, char **argv) {
    * NodeHandle destructed will close down the node.
    */
   ros::NodeHandle nh;
-  
+
   /**
    * Service Client object here calls the serviceClient function to send service Response
    */
-  ros::ServiceClient strClient = nh.serviceClient<beginner_tutorials::changeOutput>("changeOutput") ;  
-  
+  ros::ServiceClient strClient = nh.serviceClient
+    <beginner_tutorials::changeOutput>("changeOutput");
+
   /**
    * Variables types from service file
    */
   beginner_tutorials::changeOutput::Request req;
   beginner_tutorials::changeOutput::Response resp;
-  
+
   /**
    * Input the incoming string to be sent as response
    */
   req.incomingString = "From Listener";
 
   bool success = strClient.call(req, resp);
- 
+
   /**
    * call function to be checked for successful transmission of messages
    */
-  if(success) {
+  if (success) {
     ROS_INFO_STREAM_ONCE("\nOutput from talker: " << resp.outputString);
   } else {
     ROS_ERROR_STREAM("Service Call Failed");
@@ -127,7 +128,7 @@ int main(int argc, char **argv) {
    * away the oldest ones.
    */
   ros::Subscriber sub = nh.subscribe("chatter", 1000, chatterCallback);
-  
+
   /**
    * ros::spin() will enter a loop, pumping callbacks.  With this version, all
    * callbacks will be called from within this thread (the main one).  ros::spin()
@@ -138,11 +139,11 @@ int main(int argc, char **argv) {
   /**
    * Control given to ROS, runs the node till node has been shutdown.
    */ 
-  while(ros::ok()) {
-    ros::spinOnce();    
+  while (ros::ok()) {
+    ros::spinOnce();
     loop_rate.sleep();
   }
+
   return 0;
 }
-
 

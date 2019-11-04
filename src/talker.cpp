@@ -62,14 +62,14 @@ std::stringstream newString;
  *
  *   @return bool successful response will return true.
  */
-bool changeOutput(beginner_tutorials::changeOutput::Request &req,
-                  beginner_tutorials::changeOutput::Response &res) {
+bool changeOutput(beginner_tutorials::changeOutput::Request& req,
+                  beginner_tutorials::changeOutput::Response& res) {
   res.outputString = req.incomingString;
   /**
    * Generate Debug level message for developers
    */ 
   ROS_DEBUG_STREAM("The Output string will be: " << res.outputString);
-  
+
   /**
    * Take the incoming string into the variable.
    */  
@@ -112,7 +112,8 @@ int main(int argc, char **argv) {
   /**
    * Service Server object here calls the advertiseService function to check for service callbacks
    */
-  ros::ServiceServer service = nh.advertiseService("changeOutput", changeOutput);
+  ros::ServiceServer service = nh.advertiseService("changeOutput",
+                                                  changeOutput);
 
   /**
    * The advertise() function is how you tell ROS that you want to
@@ -137,20 +138,20 @@ int main(int argc, char **argv) {
    * INFO level message on the screen about program start
    */  
   ROS_INFO_STREAM("Publishing topics.");
-  
+
   /**
    * check for variable input and assign to the variable above
    */  
-  if(argc == 2) {
+  if (argc == 2) {
     talkerParamFreq = atoi(argv[1]);
-    if(talkerParamFreq < 0) {
+    if (talkerParamFreq < 0) {
       /**
        * Fatal when there is a frequency less than 0
        */
       ROS_FATAL_STREAM("Talker frequency must be greater than zero");
       exit(1);
     }
-    if(talkerParamFreq == 0) {
+    if (talkerParamFreq == 0) {
       /**
        *  Error when there is a frequency equal to 0. Can be recovered.
        */
@@ -182,12 +183,12 @@ int main(int argc, char **argv) {
     std::stringstream tempString;
 
     ss << "Inside Talker" << " " << count;
-    
+
     /**
      *  logic to check and display new string from service response.
      */
     msg.data = newString.str();
-    if(msg.data == "") {
+    if (msg.data == "") {
       msg.data = ss.str();
       ROS_WARN_STREAM_ONCE("Service has not been called yet.");
     } else {

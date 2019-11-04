@@ -24,6 +24,24 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+
+
+/**
+ *  @copyright MIT License 2019 Prasheel Renkuntla
+ *  @file    talker.cpp
+ *  @author  Prasheel Renkuntla
+ *  @date    11/04/2019
+ *  @version 1.0
+ *
+ *  @brief Talker program with Service
+ *
+ *  @section DESCRIPTION
+ *  
+ *  Beginner tutorial for creating a ROS package to publish custom string message
+ *  String message is modified with a service called by the listener node
+ *  The frequency of the message can be passed through command line arguments.
+ *  startAll launch file is used to start all nodes at once
+ */
 #include <sstream>
 
 #include "ros/ros.h"
@@ -31,22 +49,47 @@
 
 #include "beginner_tutorials/changeOutput.h"
 
-std::stringstream newString;
 /**
- * This service changes the output of talker.
+ *  This is a global stringstream type variable to be used by the service
+ */
+std::stringstream newString;
+
+/**
+ *   @brief Service callback function to change the output on screen
+ *
+ *   @param beginner_tutorials::changeOutput::incomingString req, Request to server
+ *   @param beginner_tutorials::changeOutput::outputString resp, Response from server
+ *
+ *   @return bool successful response will return true.
  */
 bool changeOutput(beginner_tutorials::changeOutput::Request &req,
                   beginner_tutorials::changeOutput::Response &res) {
   res.outputString = req.incomingString;
+  /**
+   * Generate Debug level message for developers
+   */ 
   ROS_DEBUG_STREAM("The Output string will be: " << res.outputString);
+  
+  /**
+   * Take the incoming string into the variable.
+   */  
   newString << res.outputString;
   return true;
 }
 
 /**
- * This tutorial demonstrates simple sending of messages over the ROS system.
+ *   @brief Main function to run the talker node
+ *
+ *   @param int argc, argument count for the main function
+ *   @param char argv, argument values for the main function
+ *
+ *   @return int 0 if node runs successfully.
  */
 int main(int argc, char **argv) {
+  /**
+   * Variable to capture the frequency from command line
+   */ 
+  double talkerParamFreq;
   /**
    * The ros::init() function needs to see argc and argv so that it can perform
    * any ROS arguments and name remapping that were provided at the command line.
@@ -57,7 +100,6 @@ int main(int argc, char **argv) {
    * You must call one of the versions of ros::init() before using any other
    * part of the ROS system.
    */
-
   ros::init(argc, argv, "talker");
 
   /**
@@ -65,9 +107,11 @@ int main(int argc, char **argv) {
    * The first NodeHandle constructed will fully initialize this node, and the last
    * NodeHandle destructed will close down the node.
    */
-
   ros::NodeHandle nh;
 
+  /**
+   * Service Server object here calls the advertiseService function to check for service callbacks
+   */
   ros::ServiceServer service = nh.advertiseService("changeOutput", changeOutput);
 
   /**
@@ -87,18 +131,29 @@ int main(int argc, char **argv) {
    * than we can send them, the number here specifies how many messages to
    * buffer up before throwing some away.
    */
-
   ros::Publisher chatter_pub = nh.advertise<std_msgs::String>("chatter", 1000);
-  ROS_INFO_STREAM("Publishing topics.");
-  double talkerParamFreq;
 
+  /**
+   * INFO level message on the screen about program start
+   */  
+  ROS_INFO_STREAM("Publishing topics.");
+  
+  /**
+   * check for variable input and assign to the variable above
+   */  
   if(argc == 2) {
     talkerParamFreq = atoi(argv[1]);
     if(talkerParamFreq < 0) {
-      ROS_FATAL_STREAM("Talker frequency must be greater than zero, Try Again!");
+      /**
+       * Fatal when there is a frequency less than 0
+       */
+      ROS_FATAL_STREAM("Talker frequency must be greater than zero");
       exit(1);
     }
     if(talkerParamFreq == 0) {
+      /**
+       *  Error when there is a frequency equal to 0. Can be recovered.
+       */
       ROS_ERROR_STREAM("Talker frequency should not be zero. Try Again!");
       exit(1);
     }
@@ -110,21 +165,27 @@ int main(int argc, char **argv) {
    * A count of how many messages we have sent. This is used to create
    * a unique string for each message.
    */
-
   int count = 0;
+
+  /**
+   * Control given to ROS, runs the node till node has been shutdown.
+   */ 
   while (ros::ok()) {
     /**
      * This is a message object. You stuff it with data, and then publish it.
      */
-
     std_msgs::String msg;
-
+    /**
+     * Stringstream variables to work with response from service.
+     */
     std::stringstream ss;
-    //ss << "ROS Rocks!!" << count;
     std::stringstream tempString;
 
     ss << "Inside Talker" << " " << count;
-
+    
+    /**
+     *  logic to check and display new string from service response.
+     */
     msg.data = newString.str();
     if(msg.data == "") {
       msg.data = ss.str();
@@ -136,19 +197,17 @@ int main(int argc, char **argv) {
     }
     ROS_DEBUG_STREAM("Messages from talker with service called");
     ROS_INFO_STREAM("" << msg.data.c_str());
+
     /**
      * The publish() function is how you send messages. The parameter
      * is the message object. The type of this object must agree with the type
      * given as a template parameter to the advertise<>() call, as was done
      * in the constructor above.
      */
-
     chatter_pub.publish(msg);
     ros::spinOnce();
     loop_rate.sleep();
     ++count;
   }
-
-
   return 0;
 }

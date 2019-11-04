@@ -25,18 +25,44 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+
+/**
+ *  @copyright MIT License 2019 Prasheel Renkuntla
+ *  @file    listener.cpp
+ *  @author  Prasheel Renkuntla
+ *  @date    11/04/2019
+ *  @version 1.0
+ *
+ *  @brief listener program with Service
+ *
+ *  @section DESCRIPTION
+ *  
+ *  Beginner tutorial for creating a ROS package to subscribe to a node
+ *  String message is modified here and sent back to publisher
+ */
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 
 #include "beginner_tutorials/changeOutput.h"
 
 /**
- * This tutorial demonstrates simple receipt of messages over the ROS system.
+ *   @brief Simple reception of messages over the ROS system.
+ *
+ *   @param const std::msgs::String::ConstPtr& msg 
+ *   @return none
  */
 void chatterCallback(const std_msgs::String::ConstPtr& msg) {
   ROS_INFO("I heard: [%s]", msg->data.c_str());
 }
 
+/**
+ *   @brief Main function to run the listener node
+ *
+ *   @param int argc, argument count for the main function
+ *   @param char argv, argument values for the main function
+ *
+ *   @return int 0 if node runs successfully.
+ */
 int main(int argc, char **argv) {
   /**
    * The ros::init() function needs to see argc and argv so that it can perform
@@ -56,21 +82,35 @@ int main(int argc, char **argv) {
    * NodeHandle destructed will close down the node.
    */
   ros::NodeHandle nh;
+  
+  /**
+   * Service Client object here calls the serviceClient function to send service Response
+   */
   ros::ServiceClient strClient = nh.serviceClient<beginner_tutorials::changeOutput>("changeOutput") ;  
-
+  
+  /**
+   * Variables types from service file
+   */
   beginner_tutorials::changeOutput::Request req;
   beginner_tutorials::changeOutput::Response resp;
-
-  req.incomingString = "Inside Listener";
+  
+  /**
+   * Input the incoming string to be sent as response
+   */
+  req.incomingString = "From Listener";
 
   bool success = strClient.call(req, resp);
-
+ 
+  /**
+   * call function to be checked for successful transmission of messages
+   */
   if(success) {
     ROS_INFO_STREAM_ONCE("\nOutput from talker: " << resp.outputString);
   } else {
     ROS_ERROR_STREAM("Service Call Failed");
     return -1;
   }
+
   /**
    * The subscribe() call is how you tell ROS that you want to receive messages
    * on a given topic.  This invokes a call to the ROS
@@ -94,6 +134,10 @@ int main(int argc, char **argv) {
    * will exit when Ctrl-C is pressed, or the node is shutdown by the master.
    */
   ros::Rate loop_rate(10);
+
+  /**
+   * Control given to ROS, runs the node till node has been shutdown.
+   */ 
   while(ros::ok()) {
     ros::spinOnce();    
     loop_rate.sleep();

@@ -90,7 +90,17 @@ int main(int argc, char **argv) {
 
   ros::Publisher chatter_pub = nh.advertise<std_msgs::String>("chatter", 1000);
 
-  ros::Rate loop_rate(10);
+  double talkerParamFreq;
+
+  if(argc == 2) {
+    talkerParamFreq = atoi(argv[1]);
+    if(talkerParamFreq <= 0) {
+      ROS_FATAL_STREAM("Talker frequency must be greater than zero, Try Again!");
+      exit(1);
+    }
+  }
+  ros::Rate loop_rate(talkerParamFreq);
+
 
   /**
    * A count of how many messages we have sent. This is used to create

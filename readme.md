@@ -52,8 +52,8 @@ source ./devel/setup.bash
 rosrun beginner_tutorials talker
 ```
 &nbsp;&nbsp;&nbsp;Publisher node must transmit like this 
-</br>"Service has not been called yet."
-</br>"Inside Talker" with count increasing consecutively.
+</br>&nbsp;&nbsp;&nbsp;"Service has not been called yet."
+</br>&nbsp;&nbsp;&nbsp;"Inside Talker" with count increasing consecutively.
 
 3. Open a new terminal to call the Service:
 ```

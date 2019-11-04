@@ -56,6 +56,13 @@ roslaunch beginner_tutorials startAll.launch frequency:=20
 
 3. The service will be initialised internally from the listener program which can be seen by transition of messages in the main terminal(where roslaunch was called). (Demo)
 
+&nbsp;&nbsp;&nbsp;Optional: To run the rqt_console(installed by default) in order to check the logger messages-
+```
+cd ~/catkin_ws
+source ./devel/setup.bash
+rqt_console
+```
+
 ## Alternative Method - To run the program at different frequency from individual terminals(without launch)
 To run the code follow the steps below-
 

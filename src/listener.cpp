@@ -28,6 +28,8 @@
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 
+#include "beginner_tutorials/changeOutput.h"
+
 /**
  * This tutorial demonstrates simple receipt of messages over the ROS system.
  */
@@ -53,8 +55,22 @@ int main(int argc, char **argv) {
    * The first NodeHandle constructed will fully initialize this node, and the last
    * NodeHandle destructed will close down the node.
    */
-  ros::NodeHandle n;
+  ros::NodeHandle nh;
+  ros::ServiceClient strClient = nh.serviceClient<beginner_tutorials::changeOutput>("changeOutput") ;  
 
+  beginner_tutorials::changeOutput::Request req;
+  beginner_tutorials::changeOutput::Response resp;
+
+  req.incomingString = "Inside Listener";
+
+  bool success = strClient.call(req, resp);
+
+  if(success) {
+    ROS_INFO_STREAM_ONCE("\nOutput from talker: " << resp.outputString);
+  } else {
+    ROS_ERROR_STREAM("Service Call Failed");
+    return -1;
+  }
   /**
    * The subscribe() call is how you tell ROS that you want to receive messages
    * on a given topic.  This invokes a call to the ROS
@@ -70,15 +86,18 @@ int main(int argc, char **argv) {
    * is the number of messages that will be buffered up before beginning to throw
    * away the oldest ones.
    */
-
-  ros::Subscriber sub = n.subscribe("chatter", 1000, chatterCallback);
-
+  ros::Subscriber sub = nh.subscribe("chatter", 1000, chatterCallback);
+  
   /**
    * ros::spin() will enter a loop, pumping callbacks.  With this version, all
    * callbacks will be called from within this thread (the main one).  ros::spin()
    * will exit when Ctrl-C is pressed, or the node is shutdown by the master.
    */
-  ros::spin();
+  ros::Rate loop_rate(10);
+  while(ros::ok()) {
+    ros::spinOnce();    
+    loop_rate.sleep();
+  }
   return 0;
 }
 

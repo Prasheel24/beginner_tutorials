@@ -28,6 +28,21 @@
 
 #include "ros/ros.h"
 #include "std_msgs/String.h"
+
+#include "beginner_tutorials/changeOutput.h"
+
+std::stringstream newString;
+/**
+ * This service changes the output of talker.
+ */
+bool changeOutput(beginner_tutorials::changeOutput::Request &req,
+                  beginner_tutorials::changeOutput::Response &res) {
+  res.outputString = req.incomingString;
+  ROS_DEBUG_STREAM("The Output string will be: " << res.outputString);
+  newString << res.outputString;
+  return true;
+}
+
 /**
  * This tutorial demonstrates simple sending of messages over the ROS system.
  */
@@ -51,7 +66,9 @@ int main(int argc, char **argv) {
    * NodeHandle destructed will close down the node.
    */
 
-  ros::NodeHandle n;
+  ros::NodeHandle nh;
+
+  ros::ServiceServer service = nh.advertiseService("changeOutput", changeOutput);
 
   /**
    * The advertise() function is how you tell ROS that you want to
@@ -71,7 +88,7 @@ int main(int argc, char **argv) {
    * buffer up before throwing some away.
    */
 
-  ros::Publisher chatter_pub = n.advertise<std_msgs::String>("chatter", 1000);
+  ros::Publisher chatter_pub = nh.advertise<std_msgs::String>("chatter", 1000);
 
   ros::Rate loop_rate(10);
 
@@ -89,11 +106,22 @@ int main(int argc, char **argv) {
     std_msgs::String msg;
 
     std::stringstream ss;
-    ss << "ROS Rocks!!" << count;
-    msg.data = ss.str();
+    //ss << "ROS Rocks!!" << count;
+    std::stringstream tempString;
 
-    ROS_INFO("%s", msg.data.c_str());
+    ss << "Inside Talker" << " " << count;
 
+    msg.data = newString.str();
+    if(msg.data == "") {
+      msg.data = ss.str();
+      ROS_WARN_STREAM_ONCE("Service has not been called yet.");
+    } else {
+      tempString << newString.str() << " " << count;
+      msg.data = tempString.str();
+      ROS_WARN_STREAM_ONCE("Service has been called.");
+    }
+    
+    ROS_INFO_STREAM("" << msg.data.c_str());
     /**
      * The publish() function is how you send messages. The parameter
      * is the message object. The type of this object must agree with the type

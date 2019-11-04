@@ -89,13 +89,17 @@ int main(int argc, char **argv) {
    */
 
   ros::Publisher chatter_pub = nh.advertise<std_msgs::String>("chatter", 1000);
-
+  ROS_INFO_STREAM("Publishing topics.");
   double talkerParamFreq;
 
   if(argc == 2) {
     talkerParamFreq = atoi(argv[1]);
-    if(talkerParamFreq <= 0) {
+    if(talkerParamFreq < 0) {
       ROS_FATAL_STREAM("Talker frequency must be greater than zero, Try Again!");
+      exit(1);
+    }
+    if(talkerParamFreq == 0) {
+      ROS_ERROR_STREAM("Talker frequency should not be zero. Try Again!");
       exit(1);
     }
   }
@@ -130,7 +134,7 @@ int main(int argc, char **argv) {
       msg.data = tempString.str();
       ROS_WARN_STREAM_ONCE("Service has been called.");
     }
-    
+    ROS_DEBUG_STREAM("Messages from talker with service called");
     ROS_INFO_STREAM("" << msg.data.c_str());
     /**
      * The publish() function is how you send messages. The parameter

@@ -135,11 +135,6 @@ int main(int argc, char **argv) {
   ros::Publisher chatter_pub = nh.advertise<std_msgs::String>("chatter", 1000);
 
   /**
-   * INFO level message on the screen about program start
-   */  
-  ROS_INFO_STREAM("Publishing topics.");
-
-  /**
    * check for variable input and assign to the variable above
    */  
   if (argc == 2) {
@@ -159,8 +154,13 @@ int main(int argc, char **argv) {
       exit(1);
     }
   }
-  ros::Rate loop_rate(talkerParamFreq);
 
+  /**
+   * INFO level message on the screen about program start
+   */  
+  ROS_WARN_STREAM("Publishing messages at rate: " << talkerParamFreq);
+
+  ros::Rate loop_rate(talkerParamFreq);
 
   /**
    * A count of how many messages we have sent. This is used to create
@@ -194,7 +194,7 @@ int main(int argc, char **argv) {
     } else {
       tempString << newString.str() << " " << count;
       msg.data = tempString.str();
-      ROS_WARN_STREAM_ONCE("Service has been called.");
+      ROS_WARN_STREAM_ONCE("Connection estabished with service.");
     }
     ROS_DEBUG_STREAM("Messages from talker with service called");
     ROS_INFO_STREAM("" << msg.data.c_str());

@@ -177,7 +177,7 @@ roslaunch beginner_tutorials testTalkerRun.launch
 ```
 <p>Following image shows a demo of ROSTEST in action</p>
 <p align="center">
-<img src="results/testOutput.png" width="70%" height="70%">
+<img src="results/testsOutput.png" width="70%" height="70%">
 </p>
 
 ## To record bag files

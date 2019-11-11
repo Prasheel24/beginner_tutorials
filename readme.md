@@ -190,7 +190,6 @@ roslaunch beginner_tutorials startAll.launch rosbagRecord:=true
 ```
 &nbsp;&nbsp;&nbsp;When the flag(default = false) is true, it will record until SIGINT(ctrl+c) is pressed.
 
-</br>
 Following are the steps to examine the recorded bag file
 1. Open a terminal to setup the Master Node: 
 ```

@@ -43,11 +43,11 @@
  *  TF broadcaster is used to broadcast /talk and /world frame
  *  Rosbag recording is also used.
  */
+#include <tf/transform_broadcaster.h>
 #include <sstream>
 
 #include "ros/ros.h"
 #include "std_msgs/String.h"
-#include <tf/transform_broadcaster.h>
 
 #include "beginner_tutorials/changeOutput.h"
 
@@ -71,7 +71,7 @@ bool changeOutput(beginner_tutorials::changeOutput::Request& req,
   //  Generate Debug level message for developers
   ROS_DEBUG_STREAM("The Output string will be: " << res.outputString);
 
-  //  Take the incoming string into the variable.  
+  //  Take the incoming string into the variable.
   newString << res.outputString;
   return true;
 }
@@ -84,12 +84,13 @@ bool changeOutput(beginner_tutorials::changeOutput::Request& req,
  *
  *   @return int 0 if node runs successfully.
  */
-int main(int argc, char **argv) {  
-  //  Variable to capture the frequency from command line 
+int main(int argc, char **argv) {
+  //  Variable to capture the frequency from command line
   double talkerParamFreq;
 
-  //  The ros::init() function needs to see argc and argv so that it can perform
-  //  any ROS arguments and name remapping that were provided at the command line.
+  //  The ros::init() function needs to see argc and argv so
+  //  that it can perform any ROS arguments and name remapping
+  //  that were provided at the command line.
   //  The third argument to init() is the name of the node.
   //  You must call one of the versions of ros::init() before using any other
   //  part of the ROS system.
@@ -98,14 +99,14 @@ int main(int argc, char **argv) {
   //  NodeHandle is the main access point to communications with the ROS system.
   ros::NodeHandle nh;
 
-  
-  //  Service Server object here calls the advertiseService function 
+
+  //  Service Server object here calls the advertiseService function
   //  to check for service callbacks
   ros::ServiceServer service = nh.advertiseService("changeOutput",
                                                   changeOutput);
 
-  
-  //  The advertise() function returns a publisher object when topic name and queuq size is passed
+
+  //  The advertise(topic_name, queue size) returns a publisher object
   ros::Publisher chatter_pub = nh.advertise<std_msgs::String>("chatter", 1000);
 
   //  check for variable input and assign to the variable above
@@ -127,19 +128,19 @@ int main(int argc, char **argv) {
   ROS_WARN_STREAM("Publishing messages at rate: " << talkerParamFreq);
 
   ros::Rate loop_rate(talkerParamFreq);
- 
-  //  Initailise the TF broadcaster 
+
+  //  Initailise the TF broadcaster
   static tf::TransformBroadcaster br;
   //  Create the transform object
   tf::Transform transform;
-  //  set origin 
-  transform.setOrigin(tf::Vector3(0.0,3.0,9.0));
+  //  set origin
+  transform.setOrigin(tf::Vector3(0.0, 3.0, 9.0));
   //  initialise a Quaternion
   tf::Quaternion quat;
   quat.setRPY(0.5, 0.9, 1.90);
   //  set initial rotation
   transform.setRotation(quat);
-  
+
   //  A count used to create a unique string for each message.
   int count = 0;
 
@@ -169,7 +170,8 @@ int main(int argc, char **argv) {
 
     //   The publish() function with parameter as the same message object.
     chatter_pub.publish(msg);
-    br.sendTransform(tf::StampedTransform(transform, ros::Time::now(),"world","talk"));
+    br.sendTransform(tf::StampedTransform(transform, ros::Time::now(),
+                                          "world", "talk"));
     ros::spinOnce();
     loop_rate.sleep();
     ++count;

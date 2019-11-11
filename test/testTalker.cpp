@@ -86,7 +86,7 @@ TEST(TestTalkerNode, testTFBroadcast) {
   tf::TransformListener listener;
   tf::StampedTransform transform;
   while (nh.ok()) {
-    try {   
+    try {
       listener.lookupTransform("/talk", "/world", ros::Time(0), transform);
       break;
     }

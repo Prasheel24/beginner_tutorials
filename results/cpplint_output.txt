@@ -1,7 +1,9 @@
-prasheel@prasheelHP:~/DownloadedROS/src/beginner_tutorials$ cpplint $( find . -name \*.hpp -or -name \*.cpp | grep -vE -e "^./build/" -e "^./vendor/" -e "^./docs/" -e "^./results" )
-./src/talker.cpp:65:  Is this a non-const reference? If so, make const or use a pointer: beginner_tutorials::changeOutput::Request& req  [runtime/references] [2]
-./src/talker.cpp:66:  Is this a non-const reference? If so, make const or use a pointer: beginner_tutorials::changeOutput::Response& res  [runtime/references] [2]
+prasheel@prasheelHP:~/GitUploadROS$ cpplint $( find . -name \*.hpp -or -name \*.cpp | grep -vE -e "^./build/" -e "^./vendor/" -e "^./docs/" -e "^./results" )
+./src/talker.cpp:67:  Is this a non-const reference? If so, make const or use a pointer: beginner_tutorials::changeOutput::Request& req  [runtime/references] [2]
+./src/talker.cpp:68:  Is this a non-const reference? If so, make const or use a pointer: beginner_tutorials::changeOutput::Response& res  [runtime/references] [2]
 Done processing ./src/talker.cpp
 Done processing ./src/listener.cpp
+Done processing ./test/main.cpp
+Done processing ./test/testTalker.cpp
 Total errors found: 2
 

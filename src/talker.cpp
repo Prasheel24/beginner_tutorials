@@ -47,6 +47,8 @@
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 
+#include <tf/transform_broadcaster.h>
+
 #include "beginner_tutorials/changeOutput.h"
 
 /**
@@ -161,7 +163,13 @@ int main(int argc, char **argv) {
   ROS_WARN_STREAM("Publishing messages at rate: " << talkerParamFreq);
 
   ros::Rate loop_rate(talkerParamFreq);
-
+  static tf::TransformBroadcaster br;
+  tf::Transform transform;
+  //transform.setOrigin(tf::Vector3(0,3,9));
+  transform.setOrigin(tf::Vector3(0.0,3.0,9.0));
+  tf::Quaternion quat;
+  quat.setRPY(0.5, 0.9, 1.90);
+  transform.setRotation(quat);
   /**
    * A count of how many messages we have sent. This is used to create
    * a unique string for each message.
@@ -206,6 +214,7 @@ int main(int argc, char **argv) {
      * in the constructor above.
      */
     chatter_pub.publish(msg);
+    br.sendTransform(tf::StampedTransform(transform, ros::Time::now(),"world","talk"));
     ros::spinOnce();
     loop_rate.sleep();
     ++count;

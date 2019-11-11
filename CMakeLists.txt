@@ -15,6 +15,14 @@ catkin_package(
 ## CATKIN_DEPENDS message_runtime
 )
 
+## To run tests, add dependencies for gtest and rostest
+if(CATKIN_ENABLE_TESTING)
+  find_package(rostest REQUIRED)
+  add_rostest_gtest(testTalker test/testTalkerRun.launch test/main.cpp test/testTalker.cpp)
+  target_link_libraries(testTalker ${catkin_LIBRARIES})
+  add_dependencies(testTalker talker beginner_tutorials_generate_messages_cpp ${catkin_EXPORTED_TARGETS})
+endif()
+
 ## Build talker and listener
 include_directories(include ${catkin_INCLUDE_DIRS})
 
